@@ -21,16 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.orland0m.rpi.test;
+package com.orland0m.rpi.middleware.pin;
 
-import org.junit.Test;
+import com.orland0m.rpi.middleware.event.PinStateListener;
 
 /**
  *
  * @author Orlando Miramontes <https://github.com/orland0m>
  */
-public class POCTest {
-    @Test
-    public void createsPOC() {
+public class InputPin implements RpiPin {
+
+    public InputPin(int number, String name, PinState initialState) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public boolean isHigh() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public PinState getState() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void addListener(PinStateListener listener) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

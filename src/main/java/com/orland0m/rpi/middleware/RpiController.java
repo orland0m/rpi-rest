@@ -21,16 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.orland0m.rpi.test;
-
-import org.junit.Test;
+package com.orland0m.rpi.middleware;
 
 /**
  *
  * @author Orlando Miramontes <https://github.com/orland0m>
  */
-public class POCTest {
-    @Test
-    public void createsPOC() {
-    }
+public class RpiController {
+
 }

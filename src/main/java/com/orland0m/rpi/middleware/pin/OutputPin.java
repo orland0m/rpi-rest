@@ -21,19 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.orland0m.rpi;
-
-import org.apache.log4j.Logger;
+package com.orland0m.rpi.middleware.pin;
 
 /**
  *
  * @author Orlando Miramontes <https://github.com/orland0m>
  */
-public class POC {
-    final static Logger logger = Logger.getLogger(POC.class);
-    
-    public POC()
-    {
-        logger.info("This shoould be printed to stdout");
+public class OutputPin implements RpiPin {
+
+    public OutputPin(int number, String name, PinState initialState) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public boolean isHigh() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public PinState getState() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setState(PinState state) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void up() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void down() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void toggle() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void pulse(int millis) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

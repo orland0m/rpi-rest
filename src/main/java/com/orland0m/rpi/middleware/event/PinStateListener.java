@@ -21,16 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.orland0m.rpi.test;
+package com.orland0m.rpi.middleware.event;
 
-import org.junit.Test;
+import com.orland0m.rpi.middleware.pin.InputPin;
 
 /**
  *
  * @author Orlando Miramontes <https://github.com/orland0m>
  */
-public class POCTest {
-    @Test
-    public void createsPOC() {
-    }
+public interface PinStateListener {
+    void onPinStateChange(InputPin pin);
 }
