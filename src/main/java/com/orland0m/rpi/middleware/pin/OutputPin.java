@@ -23,23 +23,33 @@
  */
 package com.orland0m.rpi.middleware.pin;
 
+import com.orland0m.rpi.middleware.exception.InvalidatedPinException;
+
 /**
+ * Common interface for RaspberryPi output pins
  *
  * @author Orlando Miramontes <https://github.com/orland0m>
  */
 public interface OutputPin extends RpiPin {
 
-    public boolean isHigh();
+    /**
+     * Sets this pins state as up or high
+     *
+     * @throws InvalidatedPinException If the pin object has already been invalidated
+     */
+    public void up() throws InvalidatedPinException;
 
-    public PinState getState();
+    /**
+     * Sets this pin state as down or low
+     *
+     * @throws InvalidatedPinException If the pin object has already been invalidated
+     */
+    public void down() throws InvalidatedPinException;
 
-    public void setState(PinState state);
-
-    public void up();
-
-    public void down();
-
-    public void toggle();
-
-    public void pulse(int upMillis, int downMillis);
+    /**
+     * Inverts this pin state
+     *
+     * @throws InvalidatedPinException If the pin object has already been invalidated
+     */
+    public void toggle() throws InvalidatedPinException;
 }

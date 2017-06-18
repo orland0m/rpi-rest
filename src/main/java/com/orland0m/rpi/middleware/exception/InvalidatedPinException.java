@@ -21,22 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.orland0m.rpi.middleware.pin;
-
-import com.orland0m.rpi.middleware.event.PinStateListener;
-import com.orland0m.rpi.middleware.exception.InvalidatedPinException;
+package com.orland0m.rpi.middleware.exception;
 
 /**
- * Common interface for RaspberryPi input pins
+ * Custom exception used to indicate that a pin is already invalid
  *
  * @author Orlando Miramontes <https://github.com/orland0m>
  */
-public interface InputPin extends RpiPin {
-    /**
-     * Registers a listener to be notified when this pin changes state
-     *
-     * @param listener A reference to the listener object
-     * @throws InvalidatedPinException If the pin object has already been invalidated
-     */
-    void addListener(PinStateListener listener) throws InvalidatedPinException;
+public class InvalidatedPinException extends RuntimeException {
+    /*! Serialization id for class */
+    private static final long serialVersionUID = 1L;
+
+    /*! Initializes the exception object */
+    public InvalidatedPinException(String message) {
+        super(message);
+    }
 }

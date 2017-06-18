@@ -23,11 +23,75 @@
  */
 package com.orland0m.rpi.middleware.pin;
 
+import com.orland0m.rpi.middleware.exception.InvalidatedPinException;
+import com.orland0m.rpi.middleware.exception.PinBusyException;
+
 /**
+ * Common interface for all RaspberryPi pins
  *
  * @author Orlando Miramontes <https://github.com/orland0m>
  */
 public interface RpiPin {
-    boolean isHigh();
-    PinState getState();
+    /**
+     * Returns true if this pin is in a high state
+     *
+     * @return True if the pin is in a high state
+     * @throws InvalidatedPinException If the pin object has already been invalidated
+     */
+    boolean isUp() throws InvalidatedPinException;
+    /**
+     * Returns true if this pin is in a low state
+     *
+     * @return True if the pin is in a low state
+     * @throws InvalidatedPinException If the pin object has already been invalidated
+     */
+    boolean isDown() throws InvalidatedPinException;
+    /**
+     * Returns the GPIO information object of this pin
+     *
+     * @return A reference to the GPIO info object
+     * @throws InvalidatedPinException If the pin object has already been invalidated
+     */
+    WiringPi getGpioInfo();
+
+    /**
+     * Marks this pin as busy
+     *
+     * @throws PinBusyException If the pin was already busy at the time of the call
+     * @throws InvalidatedPinException If the pin object has already been invalidated
+     */
+    void markBusy() throws PinBusyException, InvalidatedPinException;
+    /**
+     * Returns true if this pin is currently free
+     *
+     * @return True if this pin is currently free
+     * @throws InvalidatedPinException If the pin object has already been invalidated
+     */
+    boolean isFree() throws InvalidatedPinException;
+    /**
+     * Returns true if this pin is currently busy
+     *
+     * @return True if this pin is currently busy
+     * @throws InvalidatedPinException If the pin object has already been invalidated
+     */
+    boolean isBusy() throws InvalidatedPinException;
+    /**
+     * Marks this pin as free
+     *
+     * @throws InvalidatedPinException If the pin object has already been invalidated
+     */
+    void markFree() throws InvalidatedPinException;
+    /**
+     * Invalidates this pin, ensuring all further calls to it fail
+     *
+     * @throws PinBusyException If the pin was busy at the time of the call
+     * @throws InvalidatedPinException If the pin object has already been invalidated
+     */
+    void markInvalid() throws PinBusyException, InvalidatedPinException;
+    /**
+     * Returns true if the resource is currently valid
+     *
+     * @return True if the resource is currently valid
+     */
+    boolean isValid();
 }

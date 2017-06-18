@@ -21,37 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.orland0m.rpi.middleware;
+package com.orland0m.rpi.access.local;
 
-import com.orland0m.rpi.access.local.LocalPinAccessor;
-import com.orland0m.rpi.access.rest.RestConfig;
+import com.orland0m.rpi.access.BaseAccessor;
 import com.orland0m.rpi.middleware.exception.AccessorDownException;
 import com.orland0m.rpi.middleware.exception.PinBusyException;
 import com.orland0m.rpi.middleware.pin.InputPin;
 import com.orland0m.rpi.middleware.pin.OutputPin;
-import com.orland0m.rpi.middleware.pin.PinAccessor;
 import com.orland0m.rpi.middleware.pin.WiringPi;
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
 
 /**
- * Middleware class used to have transparent access to GPIO. This class
- * can use a local pin accessor or a REST based PIN accessor
+ * Class that creates local access pin objects based on user requests
  *
  * @author Orlando Miramontes <https://github.com/orland0m>
  */
-public class RpiController implements PinAccessor {
-    /*! Middleware object for pin access */
-    private PinAccessor middleware;
+public class LocalPinAccessor extends BaseAccessor {
+    private final GpioController controller;
 
-    public RpiController(RestConfig config) {
-        // Will create a rest based pin accessor
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * Initializes a controller object that uses a local pin accessor
-     */
-    public RpiController() {
-        middleware = new LocalPinAccessor();
+    public LocalPinAccessor() {
+        controller = GpioFactory.getInstance();
     }
 
     /* (non-Javadoc)
@@ -59,53 +49,56 @@ public class RpiController implements PinAccessor {
      */
     @Override
     public void shutdown()
-    throws IllegalArgumentException, PinBusyException, AccessorDownException, AccessorDownException,
-        AccessorDownException, AccessorDownException {
-        middleware.shutdown();
-    }
-
-    /* (non-Javadoc)
-     * @see com.orland0m.rpi.middleware.pin.PinAccessor#isDown()
-     */
-    @Override
-    public boolean isDown() {
-        return middleware.isDown();
+    throws IllegalArgumentException, PinBusyException, AccessorDownException, AccessorDownException {
+        super.shutdown();
+        controller.shutdown();
     }
 
     /* (non-Javadoc)
      * @see com.orland0m.rpi.middleware.pin.PinAccessor#getInPin(int)
      */
     @Override
-    public InputPin getInPin(int physicalPinNumber)  throws IllegalArgumentException, PinBusyException,
-        AccessorDownException, AccessorDownException {
-        return middleware.getInPin(physicalPinNumber);
+    public InputPin getInPin(int physicalPinNumber)
+    throws IllegalArgumentException, PinBusyException, AccessorDownException {
+        WiringPi gpio = WiringPi.fromPhysicalPin(physicalPinNumber);
+        return getInGpio(gpio);
     }
 
     /* (non-Javadoc)
      * @see com.orland0m.rpi.middleware.pin.PinAccessor#getInGpio(int)
      */
     @Override
-    public InputPin getInGpio(int gpioNumber)  throws IllegalArgumentException, PinBusyException,
-        AccessorDownException, AccessorDownException {
-        return middleware.getInGpio(gpioNumber);
+    public InputPin getInGpio(int gpioNumber) throws IllegalArgumentException, PinBusyException,
+        AccessorDownException {
+        WiringPi gpio = WiringPi.fromGpioAddress(gpioNumber);
+        return getInGpio(gpio);
     }
 
     /* (non-Javadoc)
      * @see com.orland0m.rpi.middleware.pin.PinAccessor#getInGpio(java.lang.String)
      */
     @Override
-    public InputPin getInGpio(String gpioName)  throws IllegalArgumentException, PinBusyException,
-        AccessorDownException, AccessorDownException {
-        return middleware.getInGpio(gpioName);
+    public InputPin getInGpio(String gpioName) throws IllegalArgumentException, PinBusyException,
+        AccessorDownException {
+        WiringPi gpio = WiringPi.fromGpioName(gpioName);
+        return getInGpio(gpio);
     }
 
     /* (non-Javadoc)
      * @see com.orland0m.rpi.middleware.pin.PinAccessor#getInGpio(com.orland0m.rpi.middleware.pin.WiringPi)
      */
     @Override
-    public InputPin getInGpio(WiringPi gpio)  throws IllegalArgumentException, PinBusyException,
-        AccessorDownException, AccessorDownException {
-        return middleware.getInGpio(gpio);
+    public InputPin getInGpio(WiringPi gpio) throws IllegalArgumentException, PinBusyException,
+        AccessorDownException {
+        assertNotDown();
+        InputPin retVal = getForInputOrRelease(gpio);
+
+        if(retVal == null) {
+            retVal = new LocalInputPin(gpio, controller);
+            registerProvisionedPin(retVal);
+        }
+
+        return retVal;
     }
 
     /* (non-Javadoc)
@@ -114,33 +107,44 @@ public class RpiController implements PinAccessor {
     @Override
     public OutputPin getOutPin(int physicalPinNumber) throws IllegalArgumentException,
         PinBusyException {
-        return middleware.getOutPin(physicalPinNumber);
+        WiringPi gpio = WiringPi.fromPhysicalPin(physicalPinNumber);
+        return getOutGpio(gpio);
     }
 
     /* (non-Javadoc)
      * @see com.orland0m.rpi.middleware.pin.PinAccessor#getOutGpio(int)
      */
     @Override
-    public OutputPin getOutGpio(int gpioNumber)  throws IllegalArgumentException, PinBusyException,
-        AccessorDownException, AccessorDownException {
-        return middleware.getOutGpio(gpioNumber);
+    public OutputPin getOutGpio(int gpioNumber) throws IllegalArgumentException, PinBusyException,
+        AccessorDownException {
+        WiringPi gpio = WiringPi.fromGpioAddress(gpioNumber);
+        return getOutGpio(gpio);
     }
 
     /* (non-Javadoc)
      * @see com.orland0m.rpi.middleware.pin.PinAccessor#getOutGpio(java.lang.String)
      */
     @Override
-    public OutputPin getOutGpio(String gpioName)  throws IllegalArgumentException, PinBusyException,
-        AccessorDownException, AccessorDownException {
-        return middleware.getOutGpio(gpioName);
+    public OutputPin getOutGpio(String gpioName) throws IllegalArgumentException, PinBusyException,
+        AccessorDownException {
+        WiringPi gpio = WiringPi.fromGpioName(gpioName);
+        return getOutGpio(gpio);
     }
 
     /* (non-Javadoc)
      * @see com.orland0m.rpi.middleware.pin.PinAccessor#getOutGpio(com.orland0m.rpi.middleware.pin.WiringPi)
      */
     @Override
-    public OutputPin getOutGpio(WiringPi gpio)  throws IllegalArgumentException, PinBusyException,
-        AccessorDownException, AccessorDownException {
-        return middleware.getOutGpio(gpio);
+    public OutputPin getOutGpio(WiringPi gpio) throws IllegalArgumentException, PinBusyException,
+        AccessorDownException {
+        assertNotDown();
+        OutputPin retVal = getForOutputOrRelease(gpio);
+
+        if(retVal == null) {
+            retVal = new LocalOutputPin(gpio, controller);
+            registerProvisionedPin(retVal);
+        }
+
+        return retVal;
     }
 }

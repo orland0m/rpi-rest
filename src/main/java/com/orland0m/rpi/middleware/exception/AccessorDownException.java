@@ -21,13 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.orland0m.rpi.middleware.pin;
+package com.orland0m.rpi.middleware.exception;
 
 /**
+ * Custom exception class used to indicate that an accessor object has already been shutdown
  *
  * @author Orlando Miramontes <https://github.com/orland0m>
  */
-public enum PinState {
-    HIGH,
-    LOW
+public class AccessorDownException extends RuntimeException {
+    /*! Serialization id for class */
+    private static final long serialVersionUID = 1L;
+
+    /*! Initializes the exception object */
+    public AccessorDownException(String message) {
+        super(message);
+    }
 }

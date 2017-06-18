@@ -21,22 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.orland0m.rpi.middleware.pin;
+package com.orland0m.rpi.access.local;
 
 import com.orland0m.rpi.middleware.event.PinStateListener;
-import com.orland0m.rpi.middleware.exception.InvalidatedPinException;
+import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
+import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 
 /**
- * Common interface for RaspberryPi input pins
+ * Adapter class used to redirect pi4j events into local listeners
  *
  * @author Orlando Miramontes <https://github.com/orland0m>
  */
-public interface InputPin extends RpiPin {
+public class Pi4jListener implements GpioPinListenerDigital {
+
+    /*! A reference to the pin object listening for events */
+    private final LocalInputPin pin;
+    /*! A reference to the  */
+    private final PinStateListener listener;
+
     /**
-     * Registers a listener to be notified when this pin changes state
-     *
-     * @param listener A reference to the listener object
-     * @throws InvalidatedPinException If the pin object has already been invalidated
+     * @param pin
+     * @param listener
+     * @throws NullPointerException
      */
-    void addListener(PinStateListener listener) throws InvalidatedPinException;
+    public Pi4jListener(LocalInputPin pin, PinStateListener listener) throws NullPointerException {
+        this.pin = pin;
+        this.listener = listener;
+
+        if(pin == null || listener == null) {
+            throw new NullPointerException("Pin and listener objects must be valid objects");
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see com.pi4j.io.gpio.event.GpioPinListenerDigital#handleGpioPinDigitalStateChangeEvent(com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent)
+     */
+    @Override
+    public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
+        listener.onPinStateChange(pin);
+    }
 }

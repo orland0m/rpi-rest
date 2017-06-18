@@ -88,12 +88,9 @@ public class WiringPiTest {
                 "stringToWiringPiMap");
         Map<WiringPi, String> physicalToWiringPiMap = Reflector.reflectField(WiringPi.class,
                 WiringPi.GPIO_0, "physicalToWiringPiMap");
-        Map<WiringPi, String> wiringPiToPhysicalMap = Reflector.reflectField(WiringPi.class,
-                WiringPi.GPIO_0, "wiringPiToPhysicalMap");
         assertEquals(EXPECTED_GPIO_COUNT, intToWiringPiMap.size());
         assertEquals(EXPECTED_GPIO_COUNT, stringToWiringPiMap.size());
         assertEquals(EXPECTED_GPIO_COUNT, physicalToWiringPiMap.size());
-        assertEquals(EXPECTED_GPIO_COUNT, wiringPiToPhysicalMap.size());
     }
 
     /**
@@ -106,9 +103,9 @@ public class WiringPiTest {
         Set<WiringPi> references = new HashSet<>();
 
         for(int gpio : GPIOS) {
-            WiringPi obj = WiringPi.fromInteger(gpio);
+            WiringPi obj = WiringPi.fromGpioAddress(gpio);
             assertFalse(references.contains(obj));
-            assertEquals(gpio, obj.toInt());
+            assertEquals(gpio, obj.getGpioAddress());
             references.add(obj);
         }
 
@@ -123,7 +120,7 @@ public class WiringPiTest {
         assertEquals(EXPECTED_GPIO_COUNT, GPIOS.length);
 
         for(int gpio : GPIOS) {
-            WiringPi obj = WiringPi.fromInteger(gpio);
+            WiringPi obj = WiringPi.fromGpioAddress(gpio);
             assertEquals("GPIO_" + gpio, obj.toString());
         }
     }
@@ -141,7 +138,7 @@ public class WiringPiTest {
         for(int i = 0; i < EXPECTED_GPIO_COUNT; i++) {
             WiringPi obj = WiringPi.fromPhysicalPin(PHYSICAL_PINS[i]);
             assertFalse(references.contains(obj));
-            assertEquals(GPIOS[i], obj.toInt());
+            assertEquals(GPIOS[i], obj.getGpioAddress());
             assertEquals(PHYSICAL_PINS[i], obj.getPhysicalPin());
             references.add(obj);
         }
@@ -159,9 +156,9 @@ public class WiringPiTest {
 
         for(int i = 0; i < EXPECTED_GPIO_COUNT; i++) {
             String gpioName = "GPIO_" + GPIOS[i];
-            WiringPi obj = WiringPi.fromString(gpioName);
+            WiringPi obj = WiringPi.fromGpioName(gpioName);
             assertFalse(references.contains(obj));
-            assertEquals(GPIOS[i], obj.toInt());
+            assertEquals(GPIOS[i], obj.getGpioAddress());
             assertEquals(gpioName, obj.toString());
             references.add(obj);
         }
