@@ -29,21 +29,11 @@ import com.orland0m.rpi.middleware.event.PinStateListener;
  *
  * @author Orlando Miramontes <https://github.com/orland0m>
  */
-public class InputPin implements RpiPin {
+public interface InputPin extends RpiPin {
 
-    public InputPin(int number, String name, PinState initialState) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    boolean isHigh();
 
-    public boolean isHigh() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    PinState getState();
 
-    public PinState getState() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void addListener(PinStateListener listener) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    void addListener(PinStateListener listener);
 }

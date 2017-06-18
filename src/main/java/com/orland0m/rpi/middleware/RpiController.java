@@ -23,10 +23,43 @@
  */
 package com.orland0m.rpi.middleware;
 
+import com.orland0m.rpi.access.rest.RestConfig;
+import com.orland0m.rpi.middleware.pin.InputPin;
+import com.orland0m.rpi.middleware.pin.OutputPin;
+import com.orland0m.rpi.middleware.pin.PinAccessor;
+
 /**
  *
  * @author Orlando Miramontes <https://github.com/orland0m>
  */
-public class RpiController {
+public class RpiController implements PinAccessor {
+    public RpiController(RestConfig config) {
+        // Will create a rest based pin accessor
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
+    public RpiController() {
+        // Will create a local pin accessor
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public InputPin getInPin(int physicalNumber) throws IllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public InputPin getInGpio(int gpioNumber) throws IllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public OutputPin getOutPin(int physicalNumber) throws IllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public OutputPin getOutGpio(int gpioNumber) throws IllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

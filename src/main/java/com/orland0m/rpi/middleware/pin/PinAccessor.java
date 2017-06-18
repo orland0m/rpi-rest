@@ -27,19 +27,9 @@ package com.orland0m.rpi.middleware.pin;
  *
  * @author Orlando Miramontes <https://github.com/orland0m>
  */
-public interface OutputPin extends RpiPin {
-
-    public boolean isHigh();
-
-    public PinState getState();
-
-    public void setState(PinState state);
-
-    public void up();
-
-    public void down();
-
-    public void toggle();
-
-    public void pulse(int upMillis, int downMillis);
+public interface PinAccessor {
+    InputPin getInPin(int physicalNumber) throws IllegalArgumentException;
+    InputPin getInGpio(int gpioNumber) throws IllegalArgumentException;
+    OutputPin getOutPin(int physicalNumber) throws IllegalArgumentException;
+    OutputPin getOutGpio(int gpioNumber) throws IllegalArgumentException;
 }

@@ -21,25 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.orland0m.rpi.middleware.pin;
+package com.orland0m.rpi.access.rest;
 
 /**
  *
  * @author Orlando Miramontes <https://github.com/orland0m>
  */
-public interface OutputPin extends RpiPin {
+public class RestConfig {
 
-    public boolean isHigh();
-
-    public PinState getState();
-
-    public void setState(PinState state);
-
-    public void up();
-
-    public void down();
-
-    public void toggle();
-
-    public void pulse(int upMillis, int downMillis);
 }

@@ -21,25 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.orland0m.rpi.middleware.pin;
+package com.orland0m.rpi.access;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import com.orland0m.rpi.middleware.pin.PinAccessor;
 
 /**
  *
  * @author Orlando Miramontes <https://github.com/orland0m>
  */
-public interface OutputPin extends RpiPin {
+public abstract class BaseAccessor implements PinAccessor {
+    protected final Map<Integer, Integer> pysicalToGpio;
+    protected final Set<Integer> gpioPins;
 
-    public boolean isHigh();
-
-    public PinState getState();
-
-    public void setState(PinState state);
-
-    public void up();
-
-    public void down();
-
-    public void toggle();
-
-    public void pulse(int upMillis, int downMillis);
+    protected BaseAccessor() {
+        pysicalToGpio = new HashMap<>();
+        gpioPins = new HashSet<>();
+        
+        for(int i : new int[] {
+                    8, 9, 7,
+                    0, 2, 3,
+                    12, 13, 14,
+                    30, 21, 22, 23, 24, 25,
+                    15, 16, 1,
+                    4, 5,
+                    6, 10, 11, 31,
+                    26,
+                    27, 28, 29
+                }) {
+            gpioPins.add(i);
+        }
+    }
 }
