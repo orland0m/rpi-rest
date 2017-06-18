@@ -110,8 +110,8 @@ public class LocalOutputPin extends BasePin implements OutputPin {
     @Override
     public void markInvalid() throws PinBusyException, InvalidatedPinException {
         super.markInvalid();
-        pin.unexport();
         pin.low();
         pin.setPullResistance(PinPullResistance.OFF);
+        pin.unexport();
     }
 }

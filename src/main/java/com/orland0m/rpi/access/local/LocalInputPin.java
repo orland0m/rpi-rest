@@ -92,7 +92,7 @@ public class LocalInputPin extends BasePin implements InputPin {
     public void markInvalid() throws PinBusyException, InvalidatedPinException {
         super.markInvalid();
         pin.removeAllListeners();
-        pin.unexport();
         pin.setPullResistance(PinPullResistance.OFF);
+        pin.unexport();
     }
 }
