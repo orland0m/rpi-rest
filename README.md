@@ -59,10 +59,10 @@ Lets explain what's going on:
 * Project scheleton created with Maven.
 * Added class hierarchies and helper classes.
 * Added ULT for WiringPi scheme to ensure pin mapping was done correctly.
-* Milestone 1 **[complete]**: implement local controller and local pin controllers. Expose Pi4j functionality through this library's middleare.
+* Milestone 1 **[complete]**: implement local controller and local pin controllers. Expose Pi4j functionality through this library's middleware.
 
 ### Next steps
-* Milestone 2: Write ULT for pin controller and make sure local controller works when running in the RaspberryPi.
+* Milestone 2: Write ULT and make sure local controller works when running in the RaspberryPi.
 * Milestone 3: Define REST API based on controller interface.
 * Milestone 4: Implement REST API and do basic testing.
 * Milestone 5: Implement REST based pin controller and run ULT created in Milestone 2. ULT must behave the same when running localy or remotely.
