@@ -56,7 +56,7 @@ Lets explain what's going on:
 **Last update**: 06/18/2017 `Work In Progress`
 ### What is done
 * Underlying architecture is defined.
-* Project scheleton created with Maven.
+* Project skeleton created with Maven.
 * Added class hierarchies and helper classes.
 * Added ULT for WiringPi scheme to ensure pin mapping was done correctly.
 * Milestone 1 **[complete]**: implement local controller and local pin controllers. Expose Pi4j functionality through this library's middleware.
